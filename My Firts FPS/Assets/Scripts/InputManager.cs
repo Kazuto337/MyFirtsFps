@@ -24,6 +24,8 @@ public class InputManager : MonoBehaviour
         else _instance = this;
 
         playerControls = new PlayerControls();
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void OnEnable()
