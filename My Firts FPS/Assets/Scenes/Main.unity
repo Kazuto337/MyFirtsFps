@@ -248,7 +248,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.25
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
@@ -264,6 +264,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1953667551}
+  - {fileID: 413438752}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -285,6 +286,43 @@ MonoBehaviour:
   cameraTransform: {fileID: 1385121953}
   playerBody: {fileID: 1953667551}
   vCamera: {fileID: 750591469}
+  gravityValue: -9.81
+  jumpSpeed: 0
+  groundDistance: 0.2
+  groundCheck: {fileID: 413438752}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 8
+--- !u!1 &413438751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 413438752}
+  m_Layer: 0
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &413438752
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413438751}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.015, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 168975748}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &750591468
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,7 +1164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543450651644987257}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FPS LVL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1189,7 +1227,8 @@ GameObject:
   - component: {fileID: 1052691969735051387}
   - component: {fileID: 1052691969735051386}
   - component: {fileID: 1052691969735051385}
-  m_Layer: 0
+  - component: {fileID: 1052691969735051389}
+  m_Layer: 3
   m_Name: LVL-Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1248,6 +1287,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 34, y: 6, z: 1.0167909}
   m_Center: {x: 0, y: 0.9024713, z: -7.416583}
+--- !u!65 &1052691969735051389
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052691969735051384}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 34, y: 1, z: 16}
+  m_Center: {x: 0, y: -1.66, z: 0}
 --- !u!33 &1469242422839811120
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1309,7 +1361,7 @@ GameObject:
   - component: {fileID: 4876039998849745232}
   - component: {fileID: 965506429975943624}
   - component: {fileID: 1724821304737625244}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LVL-Box.000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1356,7 +1408,7 @@ GameObject:
   - component: {fileID: 7485542514486963515}
   - component: {fileID: 7266910237837054600}
   - component: {fileID: 2798966411187996825}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LVL-SpawnBox.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1501,7 +1553,7 @@ GameObject:
   - component: {fileID: 9064184198836815830}
   - component: {fileID: 3165803872415974860}
   - component: {fileID: 5090376115645462318}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LVL-Pillar.000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1534,7 +1586,7 @@ GameObject:
   - component: {fileID: 4945141866360299301}
   - component: {fileID: 776164873072206543}
   - component: {fileID: 5924505650231493395}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LVL-Ramp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1581,7 +1633,7 @@ GameObject:
   - component: {fileID: 6885705076806695421}
   - component: {fileID: 2954326957919683509}
   - component: {fileID: 6385965551757040198}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LVL-SpawnBox.000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1734,7 +1786,7 @@ GameObject:
   - component: {fileID: 8314369636861326392}
   - component: {fileID: 1501240884975425164}
   - component: {fileID: 8364657007007538671}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LVL-Box.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
