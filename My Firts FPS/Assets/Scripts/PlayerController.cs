@@ -9,16 +9,22 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     [SerializeField] CharacterController characterController;
     [SerializeField] float speed, mouseSens;
+    Vector3 direction;
 
     [Header("Camera Movement")]
     [SerializeField] Transform cameraTransform, playerBody;
     [SerializeField] CinemachineVirtualCamera vCamera;
 
-    [SerializeField] float gravityValue, jumpHeigh, groundDistance, mass;
+    [Header("Physics")]
     [SerializeField] Transform groundCheck;
+    [SerializeField] float gravityValue, jumpHeigh, groundDistance, mass;
     [SerializeField] LayerMask groundMask;
-    bool isGrounded;
+    bool isGrounded, canMove;
     Vector3 weight, move, verticalVelocity;
+
+    [Header("CheckCollisions")]
+    [SerializeField] float rayMaxDistance;
+    [SerializeField] float rayOffset;
 
     private void Start()
     {
@@ -29,6 +35,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        #region Movement
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         float mouseHorizontal = Input.GetAxis("Mouse X") * mouseSens * Time.deltaTime;
@@ -41,10 +48,10 @@ public class PlayerController : MonoBehaviour
         CalculateWeight();
 
         playerBody.rotation = Quaternion.Euler(0f, vCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.Value, 0f);
-                
+
         characterController.Move(move * speed * Time.deltaTime);
         characterController.Move(verticalVelocity * Time.deltaTime);
-
+        #endregion       
     }
 
     public void CalculateWeight()
@@ -54,7 +61,7 @@ public class PlayerController : MonoBehaviour
             weight = Vector3.zero;
             if (inputManager.IsPlayerJumping())
             {
-                verticalVelocity.y = Mathf.Sqrt(jumpHeigh * -2f * gravityValue);                
+                verticalVelocity.y = Mathf.Sqrt(jumpHeigh * -2f * gravityValue);
             }
         }
         else
