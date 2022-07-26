@@ -14,16 +14,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform cameraTransform, playerBody;
     [SerializeField] CinemachineVirtualCamera vCamera;
 
-    [SerializeField] float gravityValue, jumpSpeed , groundDistance = 0.4f;
+    [SerializeField] float gravityValue, jumpHeigh, groundDistance, mass;
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundMask;
     bool isGrounded;
-    Vector3 velocity;
+    Vector3 weight, move, verticalVelocity;
 
     private void Start()
     {
-        velocity.y += gravityValue * Time.deltaTime;
-
         inputManager = InputManager.Instance;
         vCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed = mouseSens;
         vCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxSpeed = mouseSens;
@@ -31,25 +29,40 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position , groundDistance , groundMask);
-
-        if (isGrounded && velocity.y < 0)
-        {
-            velocity.y = 0;
-        }
-        
-        velocity.y += gravityValue * Time.deltaTime;
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         float mouseHorizontal = Input.GetAxis("Mouse X") * mouseSens * Time.deltaTime;
 
         Vector2 inputMovement = inputManager.GetPlayerMovement();
-        Vector3 move = transform.right * inputMovement.x + transform.forward * inputMovement.y;
+
+        move = transform.right * inputMovement.x + transform.forward * inputMovement.y;
         move = cameraTransform.forward * move.z + cameraTransform.right * move.x;
-        move.y = 0f;
+        move.y = 0;
+        CalculateWeight();
 
         playerBody.rotation = Quaternion.Euler(0f, vCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.Value, 0f);
-
+                
         characterController.Move(move * speed * Time.deltaTime);
-        characterController.Move(velocity * Time.deltaTime);
+        characterController.Move(verticalVelocity * Time.deltaTime);
+
+    }
+
+    public void CalculateWeight()
+    {
+        if (isGrounded)
+        {
+            weight = Vector3.zero;
+            if (inputManager.IsPlayerJumping())
+            {
+                verticalVelocity.y = Mathf.Sqrt(jumpHeigh * -2f * gravityValue);                
+            }
+        }
+        else
+        {
+            verticalVelocity += weight * Time.deltaTime;
+            weight = new Vector3(0, mass * gravityValue, 0);
+        }
+
+        move += weight * Time.deltaTime;
     }
 }
