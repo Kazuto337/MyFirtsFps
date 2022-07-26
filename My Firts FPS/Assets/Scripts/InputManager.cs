@@ -5,7 +5,6 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     static InputManager _instance;
-
     public static InputManager Instance
     {
         get
@@ -51,5 +50,10 @@ public class InputManager : MonoBehaviour
     public bool IsPlayerJumping()
     {
         return playerControls.Player.Jump.triggered;
+    }
+
+    public bool isPlayeFiring1()
+    {
+        return playerControls.Player.Fire1.triggered;
     }
 }
