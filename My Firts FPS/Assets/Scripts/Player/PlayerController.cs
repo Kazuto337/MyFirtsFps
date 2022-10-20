@@ -49,8 +49,9 @@ public class PlayerController : MonoBehaviour
 
         playerBody.rotation = Quaternion.Euler(0f, vCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.Value, 0f);
 
-        characterController.Move(move * speed * Time.deltaTime);
         characterController.Move(verticalVelocity * Time.deltaTime);
+        characterController.Move(move * speed * Time.deltaTime);
+        
         #endregion       
     }
 

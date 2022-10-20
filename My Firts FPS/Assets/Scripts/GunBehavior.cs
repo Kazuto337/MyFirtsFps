@@ -6,7 +6,7 @@ public class GunBehavior : MonoBehaviour
     [SerializeField] LayerMask shootableLayer;
     InputManager inputManager;
     [SerializeField] Camera camera;
-    [SerializeField] float damage , currentAmmo , maxAmmo , raycastRange;
+    [SerializeField] float damage, currentAmmo, maxAmmo, raycastRange;
 
 
     private void Awake()
@@ -24,10 +24,18 @@ public class GunBehavior : MonoBehaviour
 
     void Shoot()
     {
+        Debug.DrawRay(camera.transform.position, camera.transform.forward * raycastRange, Color.magenta);
         RaycastHit hit;
-        if(Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, raycastRange , shootableLayer))
+        if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, raycastRange, shootableLayer))
         {
             print(hit.transform.name);
+
+            EnemyBehavior enemy;
+            enemy = hit.transform.gameObject.GetComponent<EnemyBehavior>();
+            if (enemy != null)
+            {
+                enemy.GetDamage(damage);
+            }
         }
     }
 }
